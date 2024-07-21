@@ -7,7 +7,6 @@ module.exports = {
     list: async (req, res) => {
         try {
             const list = await UserService.list(req.body);
-            // return res.json(list);
             res.send(list);
         }
         catch (ex) {
