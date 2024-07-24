@@ -16,6 +16,7 @@ app.use(fileUpload())
 app.use("/", require("./src/routes/LoginRoutes"))
 app.use("/users", require("./src/routes/UserRoutes"))
 app.use("/dashboard", require("./src/routes/HomeRoutes"))
+app.use("/api/contact-us", require("./src/routes/ContactUsRoutes"))
 
 app.use("/profile", require("./src/routes/ApiRoutes"))
 
