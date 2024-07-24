@@ -14,10 +14,7 @@ module.exports = {
 
     create: async (fields) => {
         try {
-            fields.name = 'test';
-            fields.mobile = fields.your-number;
-            fields.email = fields.your-email;
-            fields.message = fields.your-message;
+            
             fields.status = false; // initially status pending
             let record = await ContactUsModel.create(fields);
 
