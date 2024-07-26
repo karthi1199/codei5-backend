@@ -14,6 +14,7 @@ module.exports = {
 
     create: async (fields) => {
         try { 
+            console.log(fields);
             fields.name    = fields['user-name'];
             fields.mobile  = fields['user-mobile'];
             fields.email   = fields['user-email'];
