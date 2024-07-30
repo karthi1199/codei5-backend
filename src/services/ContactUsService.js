@@ -13,8 +13,7 @@ module.exports = {
     },
 
     create: async (fields) => {
-        try { 
-            console.log(fields);
+        try {
             fields.status  = false; // initially status pending
             
             let record = await ContactUsModel.create(fields);
