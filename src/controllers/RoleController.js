@@ -1,12 +1,13 @@
-const LeadSourceService = require('../services/LeadSourceService');
+const RoleService = require('../services/RoleService');
+const RoleModel = require('../models/Role');
+const slugify = require('slugify');
 const mongoose = require('mongoose');
-const LeadSourceModel = require('../models/LeadSource');
 
 
 module.exports = {
     list: async (req, res) => {
         try {
-            const list = await LeadSourceService.list(req.body);
+            const list = await RoleService.list(req.body);
             res.send(list);
         }
         catch (ex) {
@@ -16,8 +17,17 @@ module.exports = {
 
     create: async (req, res, next) => {
         try {
-            const record = await LeadSourceService.create(req.body);
-            return res.status(200).json({ status:true, message: 'Details added Successfully.' });
+            const name = req.body.name;
+            const access_level = slugify(name, { lower: true });
+            const role = await RoleModel.countDocuments({access_level: { $eq: access_level }});
+            
+            if(!role){
+                req.body.access_level = access_level;
+                const record = await RoleService.create(req.body);
+                return res.status(200).json({ status:true, message: 'Details added Successfully.' });
+            }
+
+            return res.status(401).json({ status:false, message: 'Roles Already Exists' });
         } catch (error) {
             if (error instanceof mongoose.Error.ValidationError) {
                 const errorMessages = {};
@@ -33,7 +43,7 @@ module.exports = {
 
     get: async (req, res) => {
         try {
-            const record = await LeadSourceService.get(req.params.id);
+            const record = await RoleService.get(req.params.id);
             if (record) {
                 return res.send(record);
             }
@@ -47,12 +57,25 @@ module.exports = {
 
     update: async (req, res) => {
         try {
-            const record = await LeadSourceService.update(req.params.id, req.body);
-            if (record) {
-                return res.status(200).json({ status:true, message: 'Details Updated Successfully.' });
+            const name = req.body.name;
+            const _id  = req.params.id;
+            const access_level = slugify(name, { lower: true });
+            const role = await RoleModel.findOne({
+                                                $and: [
+                                                    { access_level: access_level },
+                                                    { access_level: { $ne: 'super-admin' } },
+                                                    { _id: { $ne: _id } }
+                                                ]});
+            
+            if(!role){
+                req.body.access_level = access_level;
+                const record = await RoleService.update(req.params.id, req.body);
+                if (record) {
+                    return res.status(200).json({ status:true, message: 'Details Updated Successfully.' });
+                }
+                return res.status(401).json({ status:false, message: 'Something went wrong not yet updated.' });
             }
-
-            return res.status(401).json({ status:false, message: 'Something went wrong not yet updated.' });
+            return res.status(401).json({ status:false, message: 'Roles Already Exists' });
         } catch (error) {
             if (error instanceof mongoose.Error.ValidationError) {
                 const errorMessages = {};
@@ -68,7 +91,7 @@ module.exports = {
 
     delete: async (req, res) => {
         try {
-            const record = await LeadSourceService.delete(req.params.id);
+            const record = await RoleService.delete(req.params.id);
             if (record) {
                 return res.status(200).json({ status:true, message: 'Record deleted Successfully.' });
             }

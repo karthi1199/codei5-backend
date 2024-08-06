@@ -8,7 +8,7 @@ const userSeed = async () => {
         const role   = await RoleModel.findOne({ access_level: 'super_admin'});
         const roleId = role._id;
 
-        const admin  = {first_name: 'Cloud i5',last_name: 'admin',role: roleId,email: 'admin@gmail.com',mobile: '9025303576',
+        const admin  = {first_name: 'Cloud i5',last_name: 'Super admin',role: roleId,email: 'admin@gmail.com',mobile: '9025303576',
             password: '12345678',image: 'null',designation: 'null',date_of_joining: 'null',status: true,
         };
         

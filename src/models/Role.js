@@ -4,7 +4,8 @@ const roleSchema = new mongoose.Schema(
     {
         name: {
             type: String,
-            required: true
+            required: true,
+            unique: true
         },
         access_level: {
             type: String,
@@ -13,6 +14,10 @@ const roleSchema = new mongoose.Schema(
         defined_by: {
             type: String,
             required: true
+        },
+        status: {
+            type: Boolean,
+            required: true,
         },
     },
     {
