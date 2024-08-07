@@ -19,6 +19,7 @@ app.use("/dashboard", require("./src/routes/HomeRoutes"))
 app.use("/api/contact-us", require("./src/routes/ContactUsRoutes"))
 app.use("/lead-source", require("./src/routes/LeadSourceRoutes"))
 app.use("/role", require("./src/routes/RoleRoutes"))
+app.use("/api/batch", require("./src/routes/BatchRoutes"))
 
 app.use("/profile", require("./src/routes/ApiRoutes"))
 
