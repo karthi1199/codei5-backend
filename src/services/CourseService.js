@@ -5,10 +5,8 @@ const bcrypt = require('bcrypt');
 module.exports = {
     list: async (data) => {
         try {
-            const adminRole   = await RoleModel.findOne({ access_level: 'super-admin' });
-            const adminRoleId = adminRole._id;
-            let records_count = await UserModel.countDocuments({role: { $ne: adminRoleId }});
-            let records = await UserModel.find({role: { $ne: adminRoleId }}).populate('role', 'name').sort( {createdAt : -1} );
+            let records_count = await UserModel.countDocuments();
+            let records = await UserModel.find();
             return { count: records_count, rows: records };
         }
         catch (ex) {

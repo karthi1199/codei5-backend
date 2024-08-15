@@ -1,13 +1,23 @@
-const UserService = require('../services/UserService');
+const CourseService = require('../services/CourseService');
 const mongoose = require('mongoose');
-const UserModel = require('../models/User');
+const WhatsappService = require('../utils/whatsapp-service');
 
 
 module.exports = {
     list: async (req, res) => {
         try {
-            const list = await UserService.list(req.body);
-            res.send(list);
+            for (let index = 0; index < 3; index++) {
+                const msgType = 'image-without-var';
+                const templateName = 'welcome_message';
+                const sendTo = ['919025303576'];
+                const variables = [];
+                const mediaUrl = 'https://ecom365.in/assets/images/site_logo/logo.png';
+                let test = await WhatsappService.sendWhatsappMessage(msgType,templateName,sendTo,variables,mediaUrl);
+                console.log(test);
+                
+            }
+            
+            res.send(test);
         }
         catch (ex) {
             res.status(500).json({ error: ex.message });

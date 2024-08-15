@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const fileUpload = require('express-fileupload');
-app.use(cors());
+app.use(cors({origin: 'http://localhost:3000'}));
 app.use(express.json());
 require("dotenv").config();
 const PORT = process.env.PORT || 8080;
@@ -20,6 +20,7 @@ app.use("/api/contact-us", require("./src/routes/ContactUsRoutes"))
 app.use("/lead-source", require("./src/routes/LeadSourceRoutes"))
 app.use("/role", require("./src/routes/RoleRoutes"))
 app.use("/api/batch", require("./src/routes/BatchRoutes"))
+app.use("/course", require("./src/routes/CourseRoutes"))
 
 app.use("/profile", require("./src/routes/ApiRoutes"))
 
