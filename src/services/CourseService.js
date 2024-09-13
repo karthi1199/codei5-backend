@@ -1,12 +1,12 @@
-const UserModel = require('../models/User');
-const RoleModel = require('../models/Role');
+const CourseModel = require('../models/Course');
 const bcrypt = require('bcrypt');
 
 module.exports = {
     list: async (data) => {
         try {
-            let records_count = await UserModel.countDocuments();
-            let records = await UserModel.find();
+            let records_count = await CourseModel.countDocuments();
+            let records = await CourseModel.find().populate([{ path: 'trainer', select: 'first_name' },{ path: 'batch', select: 'name' }]).sort({ createdAt: -1 });
+
             return { count: records_count, rows: records };
         }
         catch (ex) {
@@ -16,10 +16,7 @@ module.exports = {
 
     create: async (fields) => {
         try {
-            
-            fields.password  = await bcrypt.hash(fields.password, 10); 
-            
-            let record = await UserModel.create(fields);
+            let record = await CourseModel.create(fields);
 
             return record;
         }
@@ -30,7 +27,7 @@ module.exports = {
 
     get: async (id) => {
         try {
-            let record = await UserModel.findById(id);
+            let record = await CourseModel.findById(id).populate([{ path: 'trainer', select: 'first_name' },{ path: 'batch', select: 'name' }]);
             return record;
         }
         catch (ex) {
@@ -40,7 +37,7 @@ module.exports = {
 
     update: async (id, fields) => {
         try{
-            let record = await UserModel.findByIdAndUpdate(id, fields);
+            let record = await CourseModel.findByIdAndUpdate(id, fields);
             return record;
         }
         catch (ex){
@@ -50,7 +47,7 @@ module.exports = {
 
     delete: async (id) =>{
         try{
-            let record = await UserModel.findByIdAndDelete(id, {deleted: true});
+            let record = await CourseModel.findByIdAndDelete(id, {deleted: true});
             return record;
         }
         catch (ex){

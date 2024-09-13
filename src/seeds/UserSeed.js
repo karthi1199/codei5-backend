@@ -5,8 +5,9 @@ const RoleModel = require('../models/Role');
 
 const userSeed = async () => {
     try {
-        const role   = await RoleModel.findOne({ access_level: 'super_admin'});
+        const role   = await RoleModel.findOne({ access_level: 'super-admin'});
         const roleId = role._id;
+        
 
         const admin  = {first_name: 'Cloud i5',last_name: 'Super admin',role: roleId,email: 'admin@gmail.com',mobile: '9025303576',
             password: '12345678',image: 'null',designation: 'null',date_of_joining: 'null',status: true,

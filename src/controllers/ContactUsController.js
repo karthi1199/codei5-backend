@@ -1,6 +1,7 @@
+const MailService = require('../utils/MailService');
 const ContactUsService = require('../services/ContactUsService');
+const path = require('path');
 const mongoose = require('mongoose');
-const UserModel = require('../models/User');
 
 
 module.exports = {
