@@ -28,9 +28,29 @@ module.exports = {
                 return res.status(422).json({ status: false, message: 'Something went wrong...! Please try agin' });
             }
 
-            return res.status(200).json({ data: user, token: token });
+            res.cookie('AccessToken', token, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                sameSite: 'strict',
+                maxAge: 2 * 60 * 60 * 1000,
+            });
+
+            return res.status(200).json({ data: {'id': user._id, 'first_name': user.last_name, 'email': user.email} });
         }
 
         return res.status(422).json({ status: false, message: 'Check your email & password' });
+    },
+
+    logout: async (req, res, next) => {
+        
+        try {
+            res.cookie("AccessToken", "", {maxAge: 0, httpOnly: false});
+            res.status(200).json({message: "successfully logout"});
+        } catch (error) {
+            res.status(400).json({message: error.message,
+            });
+            console.log("Logout:", error.message);
+        }
     }
+   
 }

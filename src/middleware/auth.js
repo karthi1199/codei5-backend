@@ -2,13 +2,14 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
 const verifyToken = (req, res, next) => {
-    const authorizedHeaders = req.headers.authorization;
+    
+    const authorizedHeaders = req.headers.cookie;
 
     if (!authorizedHeaders) {
         return res.status(401).json({ status: false, message: "Missing Token" });
     }
 
-    const token = authorizedHeaders.split(" ")[1];
+    const token = authorizedHeaders.split("=")[1];
 
     jwt.verify(token, process.env.JWT_SECRET_KEY, async (err, decode) => {
 
