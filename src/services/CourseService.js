@@ -1,3 +1,4 @@
+const { uploadImage } = require('../Helper');
 const CourseModel = require('../models/Course');
 const bcrypt = require('bcrypt');
 
@@ -14,8 +15,11 @@ module.exports = {
         }
     },
 
-    create: async (fields) => {
+    create: async (fields, files) => {
         try {
+            const uploded = await uploadImage(files.syllabus) || null;
+            fields.syllabus = uploded.name;
+            
             let record = await CourseModel.create(fields);
 
             return record;

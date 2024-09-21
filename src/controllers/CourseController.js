@@ -15,7 +15,8 @@ module.exports = {
 
     create: async (req, res, next) => {
         try {
-            const record = await CourseService.create(req.body);
+            const record = await CourseService.create(req.body, req.files);
+            
             return res.status(200).json({ status:true, message: 'Details added Successfully.' });
         } catch (error) {
             if (error instanceof mongoose.Error.ValidationError) {
