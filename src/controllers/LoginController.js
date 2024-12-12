@@ -35,7 +35,7 @@ module.exports = {
                 maxAge: 2 * 60 * 60 * 1000,
             });
 
-            return res.status(200).json({ data: {'id': user._id, 'first_name': user.last_name, 'email': user.email} });
+            return res.status(200).json({ data: {'id': user._id, 'first_name': user.last_name, 'email': user.email, 'bearer_token': token} });
         }
 
         return res.status(422).json({ status: false, message: 'Check your email & password' });
