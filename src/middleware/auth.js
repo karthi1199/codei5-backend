@@ -3,7 +3,7 @@ const User = require('../models/User');
 
 const verifyToken = (req, res, next) => {
     
-    const authorizedHeaders = req.headers.cookie;
+    const authorizedHeaders =req.headers.authorization;;
 
     if (!authorizedHeaders) {
         return res.status(401).json({ status: false, message: "Missing Token" });
