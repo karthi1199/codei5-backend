@@ -13,8 +13,7 @@ module.exports = {
 
       const filename = path.extname(photo.name) ? `${random}${path.extname(photo.name)}` : `${random}.jpg`;
       
-      const folderPath = path.join(__dirname, 'public/uploads', folder);
-
+      const folderPath = path.join('/tmp', folder);
       await fs.mkdir(folderPath, { recursive: true });
 
       const filePath = path.join(folderPath, filename);
